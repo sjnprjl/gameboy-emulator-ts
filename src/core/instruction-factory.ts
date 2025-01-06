@@ -179,3 +179,19 @@ export function inc_n(cpu: CPU, n: Reg8 | "hl") {
 
   return createOutput(cycle, `INC ${n}; value -> ${to_hex_string(value)}`);
 }
+
+export function call_u16(cpu: CPU) {
+  const n1 = cpu.fetch();
+  const n2 = cpu.fetch();
+  const nn = to_u16(n2, n1); // jump to nn
+  const [msb, lsb] = u16_to_u8(cpu.pc); // current program counter
+  cpu.mmu.write(--cpu.sp, msb);
+  cpu.mmu.write(--cpu.sp, lsb);
+
+  cpu.pc = nn; // goto nn
+
+  return createOutput(
+    16,
+    `CALL ${to_hex_string(nn)}H; goto ${to_hex_string(cpu.pc)}H`
+  );
+}

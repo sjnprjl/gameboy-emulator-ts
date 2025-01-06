@@ -12,6 +12,7 @@ import {
   inc_n,
   ld_n_r,
   ldh_n_a,
+  call_u16,
 } from "./instruction-factory";
 import { to_hex_string } from "./utils";
 
@@ -42,6 +43,7 @@ export const Instruction: Record<number, InstructionFn | null> = {
     return createOutput(8, `LD (HL-), A; ${to_hex_string(dec)}H`);
   },
   0x3e: (cpu) => ld_r_n(cpu, "a", "#"),
+  0x4f: (cpu) => ld_r_n(cpu, "c", "a"),
   0x77: (cpu) => ld_n_r(cpu, "hl", "a"),
 
   0xaf: (cpu) => {
@@ -57,6 +59,7 @@ export const Instruction: Record<number, InstructionFn | null> = {
     const result = instruction(cpu);
     return { ...result, clock: result.clock + 4 };
   },
+  0xcd: (cpu) => call_u16(cpu),
   0xe0: (cpu) => ldh_n_a(cpu),
   0xe2: (cpu) => ldh_c_a(cpu),
 } as const;
