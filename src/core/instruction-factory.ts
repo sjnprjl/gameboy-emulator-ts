@@ -191,7 +191,7 @@ export function call_u16(cpu: CPU) {
   cpu.pc = nn; // goto nn
 
   return createOutput(
-    16,
+    24,
     `CALL ${to_hex_string(nn)}H; goto ${to_hex_string(cpu.pc)}H`
   );
 }
