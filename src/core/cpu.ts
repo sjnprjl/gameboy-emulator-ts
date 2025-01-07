@@ -18,6 +18,7 @@ export class CPU {
   private clock = 0;
   public pc: u16 = 0;
   private _sp: u16 = 0;
+  private halt = false;
 
   constructor(public mmu: MMU) {}
 
@@ -77,7 +78,13 @@ export class CPU {
   }
 
   run() {
-    while (1) this.cycle();
+    let i = 0;
+    const until = 6 * 0x3000;
+    while (i < until &&  !this.halt) {
+      this.cycle();
+      i++;
+    }
+    console.log(i, until);
   }
 
   cycle() {

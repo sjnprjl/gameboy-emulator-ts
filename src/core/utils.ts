@@ -9,7 +9,7 @@ export const to_u8 = (value: number): u8 => {
  * @returns [msb, lsb]
  */
 export const u16_to_u8 = (value: u16): [u8, u8] => {
-  const msb = value >> 8;
+  const msb = (value >> 8) & 0xff;
   const lsb = value & 0xff;
   return [msb, lsb];
 };
